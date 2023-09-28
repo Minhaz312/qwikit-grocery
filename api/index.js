@@ -1,5 +1,12 @@
-import app from "./app"
+import express from 'express'
 
-app.listen(3000,()=>{
-    console.log('http://localhost:3000')
+const app = express()
+
+app.use(express.static('public'))
+
+app.get("/",(req,res)=>{
+    res.send("api - v1")
 })
+
+export default app;
+

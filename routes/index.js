@@ -1,10 +1,6 @@
-import express from "express";
-import productRouter from "./productRoutes";
-
-const router = express.Router()
-
-export default router;
-
+import productRouter from "./productRoutes.js";
+import categoryRouter from "./categoryRoutes.js";
 export {
-    productRouter
+    productRouter,
+    categoryRouter
 }

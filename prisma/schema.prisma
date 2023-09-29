@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model ProductList {
+  id            Int @id @default(autoincrement())
+  p_name        String  @map("p_name")
+  p_slug        String  @map("p_slug")
+  p_category    String  @map("p_category")
+  p_price       Int  @map("p_price")
+  p_image       String  @map("p_image")
+  p_desc        String  @map("p_desc")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Categories {
+  id            Int @id @default(autoincrement())
+  name          String @db.Char(255)
+}
+
+model User {
+  id            Int @id @default(autoincrement())
+  name          String @db.Char(255)
+  mail          String @db.Char(255)
+  password      String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

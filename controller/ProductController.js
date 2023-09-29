@@ -69,7 +69,7 @@ export const addNewProduct = (req,res) => {
                 const {name,price,desc,category} = req.body;
                 const p_image = req.file.filename;
                 const p_slug = slugify(name,"-")
-                const data = {p_name:name,p_slug,p_image,p_price:price,p_desc:desc,p_category:category};
+                const data = {p_name:name,p_slug,p_image,p_price:Number(price),p_desc:desc,p_category:category};
                 const validate = productSchema.validate(data);
                 console.log('validate: ',validate)
                 if(validate.error){

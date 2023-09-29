@@ -1,14 +1,12 @@
 import express from 'express'
 import cors from 'cors'
 import { categoryRouter, productRouter } from './../routes/index.js'
-import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
 
 const app = express()
 
 // middleware implementation
 app.use(cors({origin:"*"}))
-app.use(helmet());
 app.use(express.json())
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes

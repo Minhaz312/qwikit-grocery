@@ -1,16 +1,17 @@
 import express from 'express'
 const productRouter = express.Router()
-import { addNewProduct, deleteProductById, filterProductByCategory, filterProductByPrice, getAllProduct, getProductById, searchProductByKeyword, updateProduct } from "../controller/ProductController.js";
+import { addNewProduct, deleteProductById, filterProductByCategory, filterProductByPrice, getAllProduct, getPaginatedProduct, getProductById, searchProductByKeyword, updateProduct } from "../controller/ProductController.js";
 
 
 // get product
 productRouter.get("/get/all",getAllProduct);
 productRouter.get("/get/:productId",getProductById);
+productRouter.get("/get/page/:page",getPaginatedProduct);
 
 // filter product
-productRouter.post("/search",searchProductByKeyword)
-productRouter.post("/filter-by/price",filterProductByPrice)
-productRouter.post("/filter-by/category",filterProductByCategory)
+productRouter.get("/search/:keyword/page/:page",searchProductByKeyword)
+productRouter.get("/filter-by/price/:price/page/:page",filterProductByPrice)
+productRouter.get("/filter-by/category/:category/page/:page",filterProductByCategory)
 
 // product manipulation
 productRouter.post("/add",addNewProduct);

@@ -15,9 +15,10 @@ export const getAllCategory = async (req,res) => {
 }
 export const addNewCategory = async (req,res) => {
     try {
-        const {categoryName} = req.body;
+        const {name} = req.body;
         const categorySchema = Joi.object({name: Joi.string().min(3).max(100).required()});
-        const data = {name:categoryName};
+        const data = {name:name};
+        console.log('data: ',data)
         const validation = categorySchema.validate(data);
         if(validation.error) {
             res.status(400);
@@ -34,16 +35,18 @@ export const addNewCategory = async (req,res) => {
 }
 export const updateCategory = async (req,res) => {
     try {
-        const {categoryName,categoryId} = req.body;
+        const {name,id} = req.body;
         const categorySchema = Joi.object({name: Joi.string().min(3).max(100).required()});
-        const data = {name:categoryName};
+        const data = {name};
+        console.log('name: ',name)
+        console.log('id: ',id)
         const validation = categorySchema.validate(data);
         if(validation.error) {
             res.status(400);
             res.json({success:false,message:"Invalid category name!"});
         }else{
             await prisma.categories.update({
-                where:{id:Number(categoryId)},
+                where:{id:Number(id)},
                 data
             });
             res.status(200);

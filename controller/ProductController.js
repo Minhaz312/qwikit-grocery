@@ -25,7 +25,7 @@ const upload = multer({
     fileFilter:(req,file,cb)=>{
 		const mimeType = file.mimetype;
 		const extension = file.originalname.split(".")[file.originalname.split(".").length-1]
-		if(mimeType=="image/jpg" || mimeType==="image/jpeg" || mimeType==="image/png") {
+		if(mimeType=="image/jpg" || mimeType==="image/jpeg" || mimeType==="image/png" || mimeType==="image/webp") {
 			cb(null,true)
 		}else {
 			cb(new Error(`${extension} is not acceptable`),false)
@@ -94,10 +94,9 @@ export const addNewProduct = (req,res) => {
 
 export const searchProductByKeyword = async (req,res) => {
     try {
-        const {page,keyword} = req.body;
-        const take = 12;
+        const {page,keyword} = req.params;
+        const take = 18;
         const skip = Number(page)*take;
-        const regexpKeyword = new RegExp(keyword,"i")
         const productList = await prisma.productList.findMany({
             where:{
                 OR:[
@@ -124,7 +123,7 @@ export const searchProductByKeyword = async (req,res) => {
             },
             skip:skip,
             take:take,
-            orderBy:"desc"
+            orderBy:{id:"desc"}
         })
         const totalProduct = await prisma.productList.aggregate({
             _count:{id:true},
@@ -184,7 +183,7 @@ export const filterProductByPrice = async (req,res) => {
             },
             skip:skip,
             take:take,
-            orderBy:"desc"
+            orderBy:{id:"desc"}
         })
         const totalProduct = await prisma.productList.aggregate({
             _count:{id:true},
@@ -215,7 +214,7 @@ export const filterProductByPrice = async (req,res) => {
 
 export const filterProductByCategory = async (req,res) => {
     try {
-        const {category,page} = req.body;
+        const {category,page} = req.params;
         const take = 12;
         const skip = Number(page)*take;
         const productList = await prisma.productList.findMany({
@@ -224,7 +223,7 @@ export const filterProductByCategory = async (req,res) => {
             },
             skip:skip,
             take:take,
-            orderBy:"desc"
+            orderBy:{id:"desc"}
         })
         const totalProduct = await prisma.productList.aggregate({
             _count:{id:true},
@@ -304,17 +303,21 @@ export const deleteProductById = async (req,res) => {
 export const getPaginatedProduct = async (req,res) => {
     try {
         const {page} = req.params;
-        const take = 12;
-        const skip = page*take;
+        console.log('page: ',page)
+        const take = 15;
+        const skip = Number(page)*take;
         const productList = await prisma.productList.findMany({
             take:take,
             skip:skip,
-            orderBy:"desc"
+            orderBy:{
+                id:"desc"
+            }
         });
         const totalProduct = await prisma.productList.count();
         res.status(200);
         res.json({success:true,productList:productList,totalProduct});
     } catch (error) {
+        console.log(error)
         res.status(500);
         res.json({success:false,data:[]});
     }

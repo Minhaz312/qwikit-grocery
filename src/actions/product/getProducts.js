@@ -1,7 +1,8 @@
 import { API_URL } from "@/constants"
 
 const url = API_URL+"/product"
-export const getPaginatedProduct = async (page=0,cb) => {
+export const getPaginatedProduct = async (page=0) => {
+    console.log('found page: ',page)
     const res = await fetch(`${url}/get/page/${page}`,{cache:"no-cache"})
     return await res.json()
 }

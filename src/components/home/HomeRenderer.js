@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import ProductList from './ProductList'
 import ProductListByCategory from './ProductListByCategory'
 import { filterProductByCategory } from '@/actions/product/getProducts'
+import LoadMoreProduct from './LoadMoreProduct'
 
 export default function HomeRenderer({categoryList,productList}) {
     const [selectedCategory, setSelectedCategory] = useState(null)
@@ -46,6 +47,7 @@ export default function HomeRenderer({categoryList,productList}) {
         </div>
         <div className="w-full">
           <ProductList productList={productsList} loadingProduct={loadingProduct} />
+          {productList.totalProduct>15&&<LoadMoreProduct totalProduct={productsList.totalProduct} />}
         </div>
       </div>
   )
